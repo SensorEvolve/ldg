@@ -45,7 +45,7 @@
 
 /* Begin PBXFileReference section */
 		00D10D5B8735D4E3E6C318EC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		02484403C84A238F7F529C26 /* StarWarsBattle.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = StarWarsBattle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		02484403C84A238F7F529C26 /* StarWarsBattle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarWarsBattle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1472CCA15F3AB93778A119C3 /* HUDNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDNode.swift; sourceTree = "<group>"; };
 		26D6EFC8BA7E170609DB8864 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2712D806534FE4269FBE422B /* SpaceshipNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceshipNode.swift; sourceTree = "<group>"; };
@@ -64,6 +64,7 @@
 		B1626C68BCDA262616EF265F /* BulletNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BulletNode.swift; sourceTree = "<group>"; };
 		C0A1A5B4F488DD6E61D6F1E9 /* SpriteKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpriteKit.framework; path = System/Library/Frameworks/SpriteKit.framework; sourceTree = SDKROOT; };
 		CF686DF9176541239E3C7029 /* GameConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConstants.swift; sourceTree = "<group>"; };
+		D31DA8CCAF0F6B01ED6F0001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DBF6828E4F96864288252131 /* GameConstantsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameConstantsTests.swift; sourceTree = "<group>"; };
 		E62AF16BC87D2D86CD50DF71 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		E7F5A568F416412E4084948E /* JoystickNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickNode.swift; sourceTree = "<group>"; };
@@ -140,6 +141,7 @@
 				DBF6828E4F96864288252131 /* GameConstantsTests.swift */,
 				EF849C4E59CE7A4DA78DBD35 /* GameSceneTests.swift */,
 				426C754DFEBC94C571EC0F4A /* HUDNodeTests.swift */,
+				D31DA8CCAF0F6B01ED6F0001 /* Info.plist */,
 				8668C11AAD7A85446DD8664A /* JoystickNodeTests.swift */,
 				A086750447217C756E141F91 /* MenuSceneTests.swift */,
 				55912876A8F56BE5A24F31AC /* SpaceshipNodeTests.swift */,
@@ -212,8 +214,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = F7ACD9858219D3EA393EA8BB /* Build configuration list for PBXProject "StarWarsBattle" */;
 			developmentRegion = en;
@@ -299,12 +299,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L6TQJ4L52R;
 				INFOPLIST_FILE = StarWarsBattle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LDG7;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.starwarsbattle.StarWarsBattle;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -317,12 +321,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = L6TQJ4L52R;
 				INFOPLIST_FILE = StarWarsBattle/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LDG7;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.starwarsbattle.StarWarsBattle;
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
@@ -334,6 +342,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = StarWarsBattleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -471,6 +480,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				INFOPLIST_FILE = StarWarsBattleTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

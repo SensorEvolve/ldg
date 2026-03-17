@@ -63,7 +63,7 @@ class JoystickNode: SKNode {
     // MARK: - Hit testing
 
     /// Returns true if a point (in this node's parent coordinate space) is within the touch area.
-    func containsPoint(_ point: CGPoint) -> Bool {
+    override func contains(_ point: CGPoint) -> Bool {
         let dx = point.x - position.x
         let dy = point.y - position.y
         return sqrt(dx * dx + dy * dy) <= GameConstants.joystickRadius * 1.5

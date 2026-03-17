@@ -1,11 +1,9 @@
 import SpriteKit
-import UIKit
 
 class MenuScene: SKScene {
 
     override func didMove(to view: SKView) {
         setupBackground()
-        setupTitle()
         setupPlayButton()
     }
 
@@ -32,7 +30,7 @@ class MenuScene: SKScene {
     private func setupPlayButton() {
         let container = SKNode()
         container.name = "playButton"
-        container.position = CGPoint(x: size.width / 2, y: size.height / 2 - 40)
+        container.position = CGPoint(x: size.width / 2, y: size.height / 2)
         container.zPosition = 1
 
         let bg = SKShapeNode(rect: CGRect(x: -100, y: -28, width: 200, height: 56),

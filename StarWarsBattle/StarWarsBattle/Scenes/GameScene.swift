@@ -74,19 +74,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     private func setupShips() {
-        // Imperial — scene space, bottom half, facing up
+        // Imperial — scene space, bottom half
+        // zRotation π = 90° left from previous up (π/2), now faces left
         let imp = SpaceshipNode(imageName: "imperial_spaceship")
+        imp.size = CGSize(width: imp.size.width * 0.5, height: imp.size.height * 0.5)
         imp.position = CGPoint(x: size.width / 2, y: size.height / 4)
-        imp.zRotation = CGFloat.pi / 2
+        imp.zRotation = CGFloat.pi
         imp.setupPhysics(category: PhysicsCategory.imperialShip,
                          contactTest: PhysicsCategory.rebelBullet)
         addChild(imp)
         imperialShip = imp
 
-        // Rebel — player2Container local space, mirrors to top half, facing down in scene
+        // Rebel — player2Container local space, mirrors to top half
+        // local zRotation 0 = 90° right from previous up (π/2); scene = container π + 0 = π (faces left)
         let reb = SpaceshipNode(imageName: "rebel_spaceship")
+        reb.size = CGSize(width: reb.size.width * 0.5, height: reb.size.height * 0.5)
         reb.position = CGPoint(x: size.width / 2, y: size.height / 4)
-        reb.zRotation = CGFloat.pi / 2
+        reb.zRotation = 0
         reb.setupPhysics(category: PhysicsCategory.rebelShip,
                          contactTest: PhysicsCategory.imperialBullet)
         player2Container.addChild(reb)
@@ -147,16 +151,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         switch player {
         case .imperial:
-            // Spawn at ship's top (nose facing up). After π/2 rotation, "top" = original right side.
-            let noseY = imp.position.y + imp.size.width / 2
+            // At π rotation dimensions are unchanged; top of ship = position.y + size.height/2
+            let noseY = imp.position.y + imp.size.height / 2
             let bullet = BulletNode(velocity: CGVector(dx: 0, dy: GameConstants.bulletSpeed))
             bullet.position = CGPoint(x: imp.position.x, y: noseY)
             addChild(bullet)
             imperialBullets.append(bullet)
 
         case .rebel:
-            // Rebel nose in local space (also π/2 rotation in local coords)
-            let localNose = CGPoint(x: reb.position.x, y: reb.position.y + reb.size.width / 2)
+            // Rebel local zRotation 0 — top of ship in local space = position.y + size.height/2
+            let localNose = CGPoint(x: reb.position.x, y: reb.position.y + reb.size.height / 2)
             let sceneNose = convert(localNose, from: player2Container)
             // Rebel bullet travels DOWN in scene space (toward imperial)
             let bullet = BulletNode(velocity: CGVector(dx: 0, dy: -GameConstants.bulletSpeed))
@@ -197,9 +201,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard let imp = imperialShip, let reb = rebelShip else { return }
 
         let halfHeight = size.height / 2
-        // After π/2 rotation: screen width = sprite.size.height, screen height = sprite.size.width
-        let impScreenW = imp.size.height / 2
-        let impScreenH = imp.size.width / 2
+        // At π rotation dimensions are unchanged (no axis swap unlike π/2)
+        let impScreenW = imp.size.width / 2
+        let impScreenH = imp.size.height / 2
 
         let impBounds = CGRect(
             x: impScreenW,
@@ -209,8 +213,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         )
         imp.applyVelocity(imperialJoystick.velocityVector, deltaTime: dt, bounds: impBounds)
 
-        let rebScreenW = reb.size.height / 2
-        let rebScreenH = reb.size.width / 2
+        let rebScreenW = reb.size.width / 2
+        let rebScreenH = reb.size.height / 2
         let rebBounds = CGRect(
             x: rebScreenW,
             y: rebScreenH,

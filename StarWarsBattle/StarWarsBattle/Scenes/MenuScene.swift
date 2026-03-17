@@ -1,10 +1,22 @@
 import SpriteKit
+import AVFoundation
 
 class MenuScene: SKScene {
+
+    private var musicPlayer: AVAudioPlayer?
 
     override func didMove(to view: SKView) {
         setupBackground()
         setupPlayButton()
+        startMusic()
+    }
+
+    private func startMusic() {
+        guard let url = Bundle.main.url(forResource: "menu_music", withExtension: "mp3") else { return }
+        musicPlayer = try? AVAudioPlayer(contentsOf: url)
+        musicPlayer?.numberOfLoops = -1
+        musicPlayer?.volume = 0.7
+        musicPlayer?.play()
     }
 
     private func setupBackground() {
@@ -55,6 +67,7 @@ class MenuScene: SKScene {
         let point = touch.location(in: self)
         let tappedNodes = nodes(at: point)
         if tappedNodes.contains(where: { $0.name == "playButton" || $0.parent?.name == "playButton" }) {
+            musicPlayer?.stop()
             let game = GameScene(size: size)
             game.scaleMode = scaleMode
             view?.presentScene(game, transition: .fade(withDuration: 0.4))

@@ -15,6 +15,10 @@
 		3F2EEAB6EAEA97C11249DC1A /* BulletNodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADFD51BF126869F84B4B82D /* BulletNodeTests.swift */; };
 		4AEA603223576731E8C6B5F8 /* JoystickNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7F5A568F416412E4084948E /* JoystickNode.swift */; };
 		53ED12D1A38C75071EAF3A44 /* laser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 7261092B3693F1CBDC9E268A /* laser.mp3 */; };
+		AA001111222233334444AAA1 /* laser.caf in Resources */ = {isa = PBXBuildFile; fileRef = AA001111222233334444BBB1 /* laser.caf */; };
+		AA001111222233334444AAA2 /* explosion.caf in Resources */ = {isa = PBXBuildFile; fileRef = AA001111222233334444BBB2 /* explosion.caf */; };
+		AA001111222233334444AAA3 /* menu_music.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AA001111222233334444BBB3 /* menu_music.mp3 */; };
+		AA001111222233334444AAA4 /* victory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = AA001111222233334444BBB4 /* victory.mp3 */; };
 		562590CCDAE377946369A1BC /* SpriteKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C0A1A5B4F488DD6E61D6F1E9 /* SpriteKit.framework */; };
 		7508655C160D80FF14F060FA /* GameConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF686DF9176541239E3C7029 /* GameConstants.swift */; };
 		7DF1922DC100E86001ECD149 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAB575CD55C5940E2F03123 /* GameViewController.swift */; };
@@ -54,6 +58,10 @@
 		55912876A8F56BE5A24F31AC /* SpaceshipNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceshipNodeTests.swift; sourceTree = "<group>"; };
 		687886082FEF105B1F04CE97 /* FireButtonNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireButtonNodeTests.swift; sourceTree = "<group>"; };
 		7261092B3693F1CBDC9E268A /* laser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = laser.mp3; sourceTree = "<group>"; };
+		AA001111222233334444BBB1 /* laser.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = laser.caf; sourceTree = "<group>"; };
+		AA001111222233334444BBB2 /* explosion.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = explosion.caf; sourceTree = "<group>"; };
+		AA001111222233334444BBB3 /* menu_music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = menu_music.mp3; sourceTree = "<group>"; };
+		AA001111222233334444BBB4 /* victory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = victory.mp3; sourceTree = "<group>"; };
 		7295379554D9C5FE4C4F0CD1 /* FireButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireButtonNode.swift; sourceTree = "<group>"; };
 		7DAB575CD55C5940E2F03123 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		8668C11AAD7A85446DD8664A /* JoystickNodeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoystickNodeTests.swift; sourceTree = "<group>"; };
@@ -112,9 +120,13 @@
 				26D6EFC8BA7E170609DB8864 /* AppDelegate.swift */,
 				40734007340E83FB866AFA93 /* Assets.xcassets */,
 				EB3E5783D511089B57FF8FD0 /* explosion.mp3 */,
+				AA001111222233334444BBB2 /* explosion.caf */,
 				CF686DF9176541239E3C7029 /* GameConstants.swift */,
 				7DAB575CD55C5940E2F03123 /* GameViewController.swift */,
 				7261092B3693F1CBDC9E268A /* laser.mp3 */,
+				AA001111222233334444BBB1 /* laser.caf */,
+				AA001111222233334444BBB3 /* menu_music.mp3 */,
+				AA001111222233334444BBB4 /* victory.mp3 */,
 				00D10D5B8735D4E3E6C318EC /* LaunchScreen.storyboard */,
 				A245657547E676CCD3D3E24B /* PhysicsCategory.swift */,
 				0E1A6773F77761864A9D5E7A /* Nodes */,
@@ -244,6 +256,10 @@
 				1E160F59E7E0A6B418D84675 /* LaunchScreen.storyboard in Resources */,
 				91F6705EDBF21689E938E649 /* explosion.mp3 in Resources */,
 				53ED12D1A38C75071EAF3A44 /* laser.mp3 in Resources */,
+				AA001111222233334444AAA1 /* laser.caf in Resources */,
+				AA001111222233334444AAA2 /* explosion.caf in Resources */,
+				AA001111222233334444AAA3 /* menu_music.mp3 in Resources */,
+				AA001111222233334444AAA4 /* victory.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

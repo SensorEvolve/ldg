@@ -1,5 +1,6 @@
 import SpriteKit
 import UIKit
+import AVFoundation
 
 enum Player { case imperial, rebel }
 
@@ -27,6 +28,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var joystickTouchStart: [ObjectIdentifier: CGPoint] = [:]
     private var joystickTouches: Set<ObjectIdentifier> = []
 
+    // MARK: - Audio
+    private var laserAction: SKAction!
+    private var explosionAction: SKAction!
+    private var victoryPlayer: AVAudioPlayer?
+
     // MARK: - Time
     private var lastUpdateTime: TimeInterval = 0
 
@@ -41,6 +47,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         setupPlayer2Container()
         setupShips()
         setupControls()
+        preloadSounds()
+    }
+
+    // MARK: - Audio setup
+
+    private func preloadSounds() {
+        laserAction = SKAction.playSoundFileNamed("laser.caf", waitForCompletion: false)
+        explosionAction = SKAction.playSoundFileNamed("explosion.caf", waitForCompletion: false)
+    }
+
+    private func playVictoryMusic() {
+        guard let url = Bundle.main.url(forResource: "victory", withExtension: "mp3") else { return }
+        victoryPlayer = try? AVAudioPlayer(contentsOf: url)
+        victoryPlayer?.play()
     }
 
     // MARK: - Setup helpers
@@ -169,7 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             rebelBullets.append(bullet)
         }
 
-        run(SKAction.playSoundFileNamed("laser.mp3", waitForCompletion: false))
+        run(laserAction)
     }
 
     func checkGameOver() {
@@ -273,7 +293,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let b = bullet { imperialBullets.removeAll { $0 === b } }
             rebelShip?.takeDamage()
             imperialShip?.addScore()
-            run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
+            run(explosionAction)
             checkGameOver()
 
         } else if (a.categoryBitMask == PhysicsCategory.rebelBullet &&
@@ -288,7 +308,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let b = bullet { rebelBullets.removeAll { $0 === b } }
             imperialShip?.takeDamage()
             rebelShip?.addScore()
-            run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
+            run(explosionAction)
             checkGameOver()
         }
     }
@@ -361,6 +381,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 return self.nodes(at: point).contains { $0.name == "playAgain" }
             }
             if tappedPlayAgain {
+                victoryPlayer?.stop()
                 let newScene = GameScene(size: size)
                 newScene.scaleMode = scaleMode
                 view?.presentScene(newScene, transition: .fade(withDuration: 0.3))
@@ -389,6 +410,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Game over overlay
 
     private func showGameOverOverlay() {
+        playVictoryMusic()
         let overlay = SKShapeNode(rect: CGRect(origin: .zero, size: size))
         overlay.fillColor = UIColor.black.withAlphaComponent(0.75)
         overlay.strokeColor = .clear

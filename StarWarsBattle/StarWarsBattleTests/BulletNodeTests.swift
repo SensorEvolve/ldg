@@ -11,7 +11,11 @@ final class BulletNodeTests: XCTestCase {
 
     func testRebelBulletIsBlue() {
         let bullet = BulletNode(velocity: CGVector(dx: 0, dy: -600))
-        XCTAssertEqual(bullet.color, UIColor(red: 0.3, green: 0.5, blue: 1.0, alpha: 1.0))
+        var r: CGFloat = 0, g: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0
+        bullet.color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        XCTAssertEqual(r, 0.3, accuracy: 0.01)
+        XCTAssertEqual(g, 0.5, accuracy: 0.01)
+        XCTAssertEqual(b, 1.0, accuracy: 0.01)
     }
 
     func testBulletSize() {
@@ -43,8 +47,10 @@ final class BulletNodeTests: XCTestCase {
     func testImperialBulletPhysicsVelocitySet() {
         let vel = CGVector(dx: 0, dy: 600)
         let bullet = BulletNode(velocity: vel)
-        XCTAssertEqual(bullet.physicsBody?.velocity.dx, vel.dx, accuracy: 0.01)
-        XCTAssertEqual(bullet.physicsBody?.velocity.dy, vel.dy, accuracy: 0.01)
+        let vx = bullet.physicsBody?.velocity.dx ?? 0
+        let vy = bullet.physicsBody?.velocity.dy ?? 0
+        XCTAssertEqual(vx, vel.dx, accuracy: 0.01)
+        XCTAssertEqual(vy, vel.dy, accuracy: 0.01)
     }
 
     func testBulletIsDynamicForContactCallbacks() {

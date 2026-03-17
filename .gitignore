@@ -1,0 +1,26 @@
+# Xcode derived data and build artifacts
+.DS_Store
+*.xcuserdata
+xcuserdata/
+DerivedData/
+*.xcscmblueprint
+*.xccheckout
+StarWarsBattle/StarWarsBattle.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Build products
+build/
+*.o
+*.d
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# SPM
+.build/
+Packages/
+*.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock

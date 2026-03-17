@@ -15,9 +15,7 @@ class GameViewController: UIViewController {
         skView.showsFPS = false
         skView.showsNodeCount = false
 
-        // Placeholder — replaced with MenuScene in Task 11
-        let scene = SKScene(size: skView.bounds.size)
-        scene.backgroundColor = .black
+        let scene = MenuScene(size: skView.bounds.size)
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
     }

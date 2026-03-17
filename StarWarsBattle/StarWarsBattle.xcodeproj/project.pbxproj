@@ -39,13 +39,13 @@
 			containerPortal = 1F6FDFDE14CFE77F67FA3F77 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E0B8761C76D9F76DA40BBAB9;
-			remoteInfo = StarWarsBattle;
+			remoteInfo = LDG7;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		00D10D5B8735D4E3E6C318EC /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		02484403C84A238F7F529C26 /* StarWarsBattle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarWarsBattle.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		02484403C84A238F7F529C26 /* LDG7.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LDG7.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1472CCA15F3AB93778A119C3 /* HUDNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDNode.swift; sourceTree = "<group>"; };
 		26D6EFC8BA7E170609DB8864 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2712D806534FE4269FBE422B /* SpaceshipNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceshipNode.swift; sourceTree = "<group>"; };
@@ -199,11 +199,11 @@
 			);
 			dependencies = (
 			);
-			name = StarWarsBattle;
+			name = LDG7;
 			packageProductDependencies = (
 			);
-			productName = StarWarsBattle;
-			productReference = 02484403C84A238F7F529C26 /* StarWarsBattle.app */;
+			productName = LDG7;
+			productReference = 02484403C84A238F7F529C26 /* LDG7.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -353,7 +353,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StarWarsBattle.app/StarWarsBattle";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LDG7.app/LDG7";
 			};
 			name = Debug;
 		};
@@ -491,7 +491,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 2;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/StarWarsBattle.app/StarWarsBattle";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LDG7.app/LDG7";
 			};
 			name = Release;
 		};

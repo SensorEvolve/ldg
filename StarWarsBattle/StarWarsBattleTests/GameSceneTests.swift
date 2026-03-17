@@ -1,5 +1,82 @@
 import XCTest
+import SpriteKit
 @testable import StarWarsBattle
 
-// Placeholder — implemented in Task 10
-final class GameSceneTests: XCTestCase {}
+final class GameSceneTests: XCTestCase {
+
+    var scene: GameScene!
+
+    override func setUp() {
+        super.setUp()
+        scene = GameScene(size: CGSize(width: 1180, height: 820))
+        scene.scaleMode = .resizeFill
+        let view = SKView(frame: CGRect(x: 0, y: 0, width: 1180, height: 820))
+        view.presentScene(scene)
+    }
+
+    func testSceneHasImperialShip() {
+        XCTAssertNotNil(scene.imperialShip)
+    }
+
+    func testSceneHasRebelShip() {
+        XCTAssertNotNil(scene.rebelShip)
+    }
+
+    func testImperialShipStartsInLeftHalf() {
+        let ship = scene.imperialShip!
+        XCTAssertLessThan(ship.position.x, scene.size.width / 2,
+                          "Imperial ship must start in the left half")
+    }
+
+    func testRebelShipStartsInRightHalfInSceneSpace() {
+        let ship = scene.rebelShip!
+        let scenePos = scene.convert(ship.position, from: ship.parent!)
+        XCTAssertGreaterThanOrEqual(scenePos.x, scene.size.width / 2,
+                                    "Rebel ship must start in the right half (scene space)")
+    }
+
+    func testGameIsNotOverAtStart() {
+        XCTAssertFalse(scene.isGameOver)
+    }
+
+    func testImperialBulletCountStartsAtZero() {
+        XCTAssertEqual(scene.imperialBullets.count, 0)
+    }
+
+    func testRebelBulletCountStartsAtZero() {
+        XCTAssertEqual(scene.rebelBullets.count, 0)
+    }
+
+    func testCanFireImperialWhenUnderMax() {
+        XCTAssertTrue(scene.canFire(player: .imperial))
+    }
+
+    func testCannotFireWhenAtMax() {
+        for _ in 0..<GameConstants.maxBullets {
+            scene.spawnBullet(player: .imperial)
+        }
+        XCTAssertFalse(scene.canFire(player: .imperial))
+    }
+
+    func testGameOverWhenImperialHPZero() {
+        scene.imperialShip!.takeDamage()
+        scene.imperialShip!.takeDamage()
+        for _ in 0..<GameConstants.maxHP {
+            scene.imperialShip!.takeDamage()
+        }
+        scene.checkGameOver()
+        XCTAssertTrue(scene.isGameOver)
+    }
+
+    func testWinnerIsRebelWhenImperialDies() {
+        for _ in 0..<GameConstants.maxHP { scene.imperialShip!.takeDamage() }
+        scene.checkGameOver()
+        XCTAssertEqual(scene.winner, "Rebel Wins!")
+    }
+
+    func testWinnerIsImperialWhenRebelDies() {
+        for _ in 0..<GameConstants.maxHP { scene.rebelShip!.takeDamage() }
+        scene.checkGameOver()
+        XCTAssertEqual(scene.winner, "Imperial Wins!")
+    }
+}

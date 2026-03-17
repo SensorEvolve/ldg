@@ -55,10 +55,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private func setupDivider() {
         let divider = SKShapeNode(rect: CGRect(
-            x: size.width / 2 - GameConstants.dividerWidth / 2,
-            y: 0,
-            width: GameConstants.dividerWidth,
-            height: size.height
+            x: 0,
+            y: size.height / 2 - GameConstants.dividerWidth / 2,
+            width: size.width,
+            height: GameConstants.dividerWidth
         ))
         divider.fillColor = .white
         divider.strokeColor = .clear
@@ -74,17 +74,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
 
     private func setupShips() {
-        // Imperial — scene space
+        // Imperial — scene space, bottom half, facing up
         let imp = SpaceshipNode(imageName: "imperial_spaceship")
-        imp.position = CGPoint(x: 100, y: size.height / 2)
+        imp.position = CGPoint(x: size.width / 2, y: size.height / 4)
+        imp.zRotation = CGFloat.pi / 2
         imp.setupPhysics(category: PhysicsCategory.imperialShip,
                          contactTest: PhysicsCategory.rebelBullet)
         addChild(imp)
         imperialShip = imp
 
-        // Rebel — player2Container local space
+        // Rebel — player2Container local space, mirrors to top half, facing down in scene
         let reb = SpaceshipNode(imageName: "rebel_spaceship")
-        reb.position = CGPoint(x: 100, y: size.height / 2)
+        reb.position = CGPoint(x: size.width / 2, y: size.height / 4)
+        reb.zRotation = CGFloat.pi / 2
         reb.setupPhysics(category: PhysicsCategory.rebelShip,
                          contactTest: PhysicsCategory.imperialBullet)
         player2Container.addChild(reb)
@@ -96,30 +98,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let r = GameConstants.joystickRadius
         let fb = GameConstants.fireButtonSize / 2
 
-        // --- Player 1 controls (scene space, left short side) ---
+        // --- Player 1 controls (bottom edge) ---
+
+        // Joystick: bottom-left
         imperialJoystick = JoystickNode()
         imperialJoystick.position = CGPoint(x: m + r, y: m + r)
         addChild(imperialJoystick)
 
+        // Fire button: bottom-right
         imperialFireButton = FireButtonNode()
-        imperialFireButton.position = CGPoint(x: m + fb, y: size.height - m - fb)
+        imperialFireButton.position = CGPoint(x: size.width - m - fb, y: m + fb)
         addChild(imperialFireButton)
 
+        // HUD: bottom center
         imperialHUD = HUDNode(playerName: "IMPERIAL")
-        imperialHUD.position = CGPoint(x: m, y: size.height / 2)
+        imperialHUD.position = CGPoint(x: size.width / 2, y: m + 50)
+        imperialHUD.zRotation = 0
         addChild(imperialHUD)
 
-        // --- Player 2 controls (player2Container local space, mirrors Player 1) ---
+        // --- Player 2 controls (player2Container local space → mirrors to top edge) ---
+
         rebelJoystick = JoystickNode()
         rebelJoystick.position = CGPoint(x: m + r, y: m + r)
         player2Container.addChild(rebelJoystick)
 
         rebelFireButton = FireButtonNode()
-        rebelFireButton.position = CGPoint(x: m + fb, y: size.height - m - fb)
+        rebelFireButton.position = CGPoint(x: size.width - m - fb, y: m + fb)
         player2Container.addChild(rebelFireButton)
 
         rebelHUD = HUDNode(playerName: "REBEL")
-        rebelHUD.position = CGPoint(x: m, y: size.height / 2)
+        rebelHUD.position = CGPoint(x: size.width / 2, y: m + 50)
+        rebelHUD.zRotation = 0
         player2Container.addChild(rebelHUD)
     }
 
@@ -138,17 +147,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         switch player {
         case .imperial:
-            let noseX = imp.position.x + imp.size.width / 2
-            let bullet = BulletNode(velocity: CGVector(dx: GameConstants.bulletSpeed, dy: 0))
-            bullet.position = CGPoint(x: noseX, y: imp.position.y)
+            // Spawn at ship's top (nose facing up). After π/2 rotation, "top" = original right side.
+            let noseY = imp.position.y + imp.size.width / 2
+            let bullet = BulletNode(velocity: CGVector(dx: 0, dy: GameConstants.bulletSpeed))
+            bullet.position = CGPoint(x: imp.position.x, y: noseY)
             addChild(bullet)
             imperialBullets.append(bullet)
 
         case .rebel:
-            let localNose = CGPoint(x: reb.position.x + reb.size.width / 2, y: reb.position.y)
+            // Rebel nose in local space (also π/2 rotation in local coords)
+            let localNose = CGPoint(x: reb.position.x, y: reb.position.y + reb.size.width / 2)
             let sceneNose = convert(localNose, from: player2Container)
-            // Rebel bullets travel LEFT in scene space (toward Imperial ship)
-            let bullet = BulletNode(velocity: CGVector(dx: -GameConstants.bulletSpeed, dy: 0))
+            // Rebel bullet travels DOWN in scene space (toward imperial)
+            let bullet = BulletNode(velocity: CGVector(dx: 0, dy: -GameConstants.bulletSpeed))
             bullet.position = sceneNose
             addChild(bullet)
             rebelBullets.append(bullet)
@@ -185,25 +196,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func updateShipMovement(dt: CGFloat) {
         guard let imp = imperialShip, let reb = rebelShip else { return }
 
-        let halfWidth = size.width / 2
-        let shipHalfW = imp.size.width / 2
-        let shipHalfH = imp.size.height / 2
+        let halfHeight = size.height / 2
+        // After π/2 rotation: screen width = sprite.size.height, screen height = sprite.size.width
+        let impScreenW = imp.size.height / 2
+        let impScreenH = imp.size.width / 2
 
         let impBounds = CGRect(
-            x: shipHalfW,
-            y: shipHalfH,
-            width: halfWidth - shipHalfW - GameConstants.dividerWidth,
-            height: size.height - shipHalfH * 2
+            x: impScreenW,
+            y: impScreenH,
+            width: size.width - impScreenW * 2,
+            height: halfHeight - impScreenH - GameConstants.dividerWidth
         )
         imp.applyVelocity(imperialJoystick.velocityVector, deltaTime: dt, bounds: impBounds)
 
-        let rebHalfW = reb.size.width / 2
-        let rebHalfH = reb.size.height / 2
+        let rebScreenW = reb.size.height / 2
+        let rebScreenH = reb.size.width / 2
         let rebBounds = CGRect(
-            x: rebHalfW,
-            y: rebHalfH,
-            width: halfWidth - rebHalfW - GameConstants.dividerWidth,
-            height: size.height - rebHalfH * 2
+            x: rebScreenW,
+            y: rebScreenH,
+            width: size.width - rebScreenW * 2,
+            height: halfHeight - rebScreenH - GameConstants.dividerWidth
         )
         reb.applyVelocity(rebelJoystick.velocityVector, deltaTime: dt, bounds: rebBounds)
     }
@@ -211,7 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func updateBullets() {
         var aliveImperial: [BulletNode] = []
         for bullet in imperialBullets {
-            if bullet.isOutOfBounds(sceneWidth: size.width) {
+            if bullet.isOutOfBounds(sceneHeight: size.height) {
                 bullet.removeFromParent()
             } else {
                 aliveImperial.append(bullet)
@@ -221,7 +233,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         var aliveRebel: [BulletNode] = []
         for bullet in rebelBullets {
-            if bullet.isOutOfBounds(sceneWidth: size.width) {
+            if bullet.isOutOfBounds(sceneHeight: size.height) {
                 bullet.removeFromParent()
             } else {
                 aliveRebel.append(bullet)
@@ -245,7 +257,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let a = contact.bodyA
         let b = contact.bodyB
 
-        // Imperial bullet hits Rebel ship
         if (a.categoryBitMask == PhysicsCategory.imperialBullet &&
             b.categoryBitMask == PhysicsCategory.rebelShip) ||
            (b.categoryBitMask == PhysicsCategory.imperialBullet &&
@@ -286,25 +297,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let scenePoint = touch.location(in: self)
             let id = ObjectIdentifier(touch)
 
-            if scenePoint.x < size.width / 2 {
+            if scenePoint.y < size.height / 2 {
+                // Player 1 touch (bottom half)
                 touchOwner[id] = .imperial
                 if imperialJoystick.contains(scenePoint) {
-                    let localPoint = CGPoint(x: scenePoint.x - imperialJoystick.position.x,
-                                            y: scenePoint.y - imperialJoystick.position.y)
-                    imperialJoystick.setThumbOffset(CGVector(dx: localPoint.x, dy: localPoint.y))
+                    imperialJoystick.setThumbOffset(CGVector(
+                        dx: scenePoint.x - imperialJoystick.position.x,
+                        dy: scenePoint.y - imperialJoystick.position.y))
                     joystickTouchStart[id] = scenePoint
                     joystickTouches.insert(id)
                 } else if imperialFireButton.contains(scenePoint) {
                     spawnBullet(player: .imperial)
                 }
             } else {
+                // Player 2 touch (top half)
                 touchOwner[id] = .rebel
                 let localPoint = convert(scenePoint, to: player2Container)
                 if rebelJoystick.contains(localPoint) {
-                    let offset = CGPoint(x: localPoint.x - rebelJoystick.position.x,
-                                        y: localPoint.y - rebelJoystick.position.y)
-                    rebelJoystick.setThumbOffset(CGVector(dx: offset.x, dy: offset.y))
-                    joystickTouchStart[id] = CGPoint(x: localPoint.x, y: localPoint.y)
+                    rebelJoystick.setThumbOffset(CGVector(
+                        dx: localPoint.x - rebelJoystick.position.x,
+                        dy: localPoint.y - rebelJoystick.position.y))
+                    joystickTouchStart[id] = localPoint
                     joystickTouches.insert(id)
                 } else if rebelFireButton.contains(localPoint) {
                     spawnBullet(player: .rebel)
@@ -317,22 +330,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         guard !isGameOver else { return }
         for touch in touches {
             let id = ObjectIdentifier(touch)
-            guard let owner = touchOwner[id] else { continue }
+            guard let owner = touchOwner[id], joystickTouches.contains(id) else { continue }
             let scenePoint = touch.location(in: self)
 
             switch owner {
             case .imperial:
                 guard let startPos = joystickTouchStart[id] else { continue }
-                let offset = CGVector(dx: scenePoint.x - startPos.x,
-                                     dy: scenePoint.y - startPos.y)
-                imperialJoystick.setThumbOffset(offset)
+                imperialJoystick.setThumbOffset(CGVector(
+                    dx: scenePoint.x - startPos.x,
+                    dy: scenePoint.y - startPos.y))
 
             case .rebel:
                 guard let startPos = joystickTouchStart[id] else { continue }
                 let localPoint = convert(scenePoint, to: player2Container)
-                let offset = CGVector(dx: localPoint.x - startPos.x,
-                                     dy: localPoint.y - startPos.y)
-                rebelJoystick.setThumbOffset(offset)
+                rebelJoystick.setThumbOffset(CGVector(
+                    dx: localPoint.x - startPos.x,
+                    dy: localPoint.y - startPos.y))
             }
         }
     }
@@ -347,7 +360,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let newScene = GameScene(size: size)
                 newScene.scaleMode = scaleMode
                 view?.presentScene(newScene, transition: .fade(withDuration: 0.3))
-                return  // early return — exits the method entirely
+                return
             }
         }
 

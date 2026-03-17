@@ -8,9 +8,9 @@ final class GameSceneTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        scene = GameScene(size: CGSize(width: 1180, height: 820))
+        scene = GameScene(size: CGSize(width: 820, height: 1180))
         scene.scaleMode = .resizeFill
-        let view = SKView(frame: CGRect(x: 0, y: 0, width: 1180, height: 820))
+        let view = SKView(frame: CGRect(x: 0, y: 0, width: 820, height: 1180))
         view.presentScene(scene)
     }
 
@@ -22,17 +22,17 @@ final class GameSceneTests: XCTestCase {
         XCTAssertNotNil(scene.rebelShip)
     }
 
-    func testImperialShipStartsInLeftHalf() {
+    func testImperialShipStartsInBottomHalf() {
         let ship = scene.imperialShip!
-        XCTAssertLessThan(ship.position.x, scene.size.width / 2,
-                          "Imperial ship must start in the left half")
+        XCTAssertLessThan(ship.position.y, scene.size.height / 2,
+                          "Imperial ship must start in the bottom half")
     }
 
-    func testRebelShipStartsInRightHalfInSceneSpace() {
+    func testRebelShipStartsInTopHalfInSceneSpace() {
         let ship = scene.rebelShip!
         let scenePos = scene.convert(ship.position, from: ship.parent!)
-        XCTAssertGreaterThanOrEqual(scenePos.x, scene.size.width / 2,
-                                    "Rebel ship must start in the right half (scene space)")
+        XCTAssertGreaterThanOrEqual(scenePos.y, scene.size.height / 2,
+                                    "Rebel ship must start in the top half (scene space)")
     }
 
     func testGameIsNotOverAtStart() {
@@ -59,8 +59,6 @@ final class GameSceneTests: XCTestCase {
     }
 
     func testGameOverWhenImperialHPZero() {
-        scene.imperialShip!.takeDamage()
-        scene.imperialShip!.takeDamage()
         for _ in 0..<GameConstants.maxHP {
             scene.imperialShip!.takeDamage()
         }

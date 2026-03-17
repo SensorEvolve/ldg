@@ -25,6 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // MARK: - Touch tracking
     private var touchOwner: [ObjectIdentifier: Player] = [:]
     private var joystickTouchStart: [ObjectIdentifier: CGPoint] = [:]
+    private var joystickTouches: Set<ObjectIdentifier> = []
 
     // MARK: - Time
     private var lastUpdateTime: TimeInterval = 0
@@ -244,6 +245,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let a = contact.bodyA
         let b = contact.bodyB
 
+        // Imperial bullet hits Rebel ship
         if (a.categoryBitMask == PhysicsCategory.imperialBullet &&
             b.categoryBitMask == PhysicsCategory.rebelShip) ||
            (b.categoryBitMask == PhysicsCategory.imperialBullet &&
@@ -251,21 +253,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             let bullet = (a.categoryBitMask == PhysicsCategory.imperialBullet
                 ? a.node : b.node) as? BulletNode
+            guard bullet?.parent != nil else { return }
             bullet?.removeFromParent()
             if let b = bullet { imperialBullets.removeAll { $0 === b } }
             rebelShip?.takeDamage()
             imperialShip?.addScore()
             run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
             checkGameOver()
-        }
 
-        if (a.categoryBitMask == PhysicsCategory.rebelBullet &&
-            b.categoryBitMask == PhysicsCategory.imperialShip) ||
-           (b.categoryBitMask == PhysicsCategory.rebelBullet &&
-            a.categoryBitMask == PhysicsCategory.imperialShip) {
+        } else if (a.categoryBitMask == PhysicsCategory.rebelBullet &&
+                   b.categoryBitMask == PhysicsCategory.imperialShip) ||
+                  (b.categoryBitMask == PhysicsCategory.rebelBullet &&
+                   a.categoryBitMask == PhysicsCategory.imperialShip) {
 
             let bullet = (a.categoryBitMask == PhysicsCategory.rebelBullet
                 ? a.node : b.node) as? BulletNode
+            guard bullet?.parent != nil else { return }
             bullet?.removeFromParent()
             if let b = bullet { rebelBullets.removeAll { $0 === b } }
             imperialShip?.takeDamage()
@@ -289,7 +292,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let localPoint = CGPoint(x: scenePoint.x - imperialJoystick.position.x,
                                             y: scenePoint.y - imperialJoystick.position.y)
                     imperialJoystick.setThumbOffset(CGVector(dx: localPoint.x, dy: localPoint.y))
-                    joystickTouchStart[id] = imperialJoystick.position
+                    joystickTouchStart[id] = scenePoint
+                    joystickTouches.insert(id)
                 } else if imperialFireButton.contains(scenePoint) {
                     spawnBullet(player: .imperial)
                 }
@@ -300,7 +304,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     let offset = CGPoint(x: localPoint.x - rebelJoystick.position.x,
                                         y: localPoint.y - rebelJoystick.position.y)
                     rebelJoystick.setThumbOffset(CGVector(dx: offset.x, dy: offset.y))
-                    joystickTouchStart[id] = rebelJoystick.position
+                    joystickTouchStart[id] = CGPoint(x: localPoint.x, y: localPoint.y)
+                    joystickTouches.insert(id)
                 } else if rebelFireButton.contains(localPoint) {
                     spawnBullet(player: .rebel)
                 }
@@ -334,21 +339,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         if isGameOver {
-            for touch in touches {
+            let tappedPlayAgain = touches.contains { touch in
                 let point = touch.location(in: self)
-                let nodes = self.nodes(at: point)
-                if nodes.contains(where: { $0.name == "playAgain" }) {
-                    let newScene = GameScene(size: size)
-                    newScene.scaleMode = scaleMode
-                    view?.presentScene(newScene, transition: .fade(withDuration: 0.3))
-                    return
-                }
+                return self.nodes(at: point).contains { $0.name == "playAgain" }
+            }
+            if tappedPlayAgain {
+                let newScene = GameScene(size: size)
+                newScene.scaleMode = scaleMode
+                view?.presentScene(newScene, transition: .fade(withDuration: 0.3))
+                return  // early return — exits the method entirely
             }
         }
 
         for touch in touches {
             let id = ObjectIdentifier(touch)
-            if let owner = touchOwner[id] {
+            if joystickTouches.contains(id), let owner = touchOwner[id] {
                 switch owner {
                 case .imperial: imperialJoystick.reset()
                 case .rebel:    rebelJoystick.reset()
@@ -356,6 +361,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             touchOwner.removeValue(forKey: id)
             joystickTouchStart.removeValue(forKey: id)
+            joystickTouches.remove(id)
         }
     }
 

@@ -1,0 +1,88 @@
+<h2>Final Layout</h2>
+<p class="subtitle">All text rotated to read correctly from each player's short side</p>
+
+<div class="mockup">
+  <div class="mockup-header">iPad — bird's eye view</div>
+  <div class="mockup-body" style="padding:0">
+    <div style="width:100%;height:300px;background:linear-gradient(180deg,#050518,#000428);position:relative;overflow:hidden;border-radius:0 0 6px 6px;">
+
+      <!-- Stars -->
+      <div style="position:absolute;width:2px;height:2px;background:white;top:20%;left:30%;border-radius:50%;opacity:0.6"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:60%;left:40%;border-radius:50%;opacity:0.5"></div>
+      <div style="position:absolute;width:2px;height:2px;background:white;top:25%;left:65%;border-radius:50%;opacity:0.7"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:72%;left:75%;border-radius:50%;opacity:0.5"></div>
+
+      <!-- CENTER DIVIDER -->
+      <div style="position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(255,255,255,0.2);transform:translateX(-50%)"></div>
+
+      <!-- ======= LEFT HALF — Imperial ship ======= -->
+      <div style="position:absolute;top:50%;left:33%;transform:translate(-50%,-50%)">
+        <div style="width:34px;height:19px;background:#c8a820;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+      </div>
+      <div style="position:absolute;top:calc(50% - 3px);left:42%;width:12px;height:5px;background:#ff4444;border-radius:2px"></div>
+
+      <!-- ======= RIGHT HALF — Rebel ship ======= -->
+      <div style="position:absolute;top:50%;left:67%;transform:translate(-50%,-50%) rotate(180deg)">
+        <div style="width:34px;height:19px;background:#3a7bd5;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+      </div>
+      <div style="position:absolute;top:calc(50% - 3px);right:42%;width:12px;height:5px;background:#4488ff;border-radius:2px"></div>
+
+      <!-- ======= PLAYER 1 — left short side ======= -->
+      <!-- All text rotated 90° CW so it reads correctly when holding the left edge -->
+
+      <!-- Top-left: FIRE button -->
+      <div style="position:absolute;top:12px;left:12px;">
+        <div style="width:46px;height:46px;border-radius:50%;background:rgba(220,50,50,0.65);border:2px solid rgba(255,100,100,0.6);display:flex;align-items:center;justify-content:center;font-size:17px;">⚡</div>
+        <div style="text-align:center;margin-top:2px;color:rgba(255,100,100,0.6);font-size:8px;font-family:monospace;transform:rotate(90deg)">FIRE</div>
+      </div>
+
+      <!-- Middle-left: SCORE — rotated 90° CW -->
+      <div style="position:absolute;top:50%;left:16px;transform:translateY(-50%) rotate(90deg);text-align:center;width:60px;margin-left:-16px;">
+        <div style="color:rgba(255,100,100,0.7);font-size:8px;font-family:monospace;letter-spacing:1px">IMPERIAL</div>
+        <div style="color:rgba(255,100,100,1);font-size:18px;font-family:monospace;font-weight:bold;line-height:1.2">10</div>
+        <div style="color:rgba(255,100,100,0.6);font-size:8px;font-family:monospace">SCORE: 0</div>
+      </div>
+
+      <!-- Bottom-left: JOYSTICK -->
+      <div style="position:absolute;bottom:12px;left:12px;">
+        <div style="width:54px;height:54px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+        </div>
+        <div style="text-align:center;margin-top:2px;color:rgba(255,255,255,0.4);font-size:8px;font-family:monospace;transform:rotate(90deg)">MOVE</div>
+      </div>
+
+      <!-- ======= PLAYER 2 — right short side ======= -->
+      <!-- Container rotated 180° — text within rotated extra 90° = net 270° = reads correctly from right edge -->
+
+      <!-- bottom-right container = player 2's "top" (fire) -->
+      <div style="position:absolute;bottom:12px;right:12px;transform:rotate(180deg)">
+        <div style="width:46px;height:46px;border-radius:50%;background:rgba(50,100,220,0.65);border:2px solid rgba(80,160,255,0.6);display:flex;align-items:center;justify-content:center;font-size:17px;">⚡</div>
+        <div style="text-align:center;margin-top:2px;color:rgba(80,160,255,0.6);font-size:8px;font-family:monospace;transform:rotate(90deg)">FIRE</div>
+      </div>
+
+      <!-- Middle-right: SCORE — rotated for player 2 -->
+      <div style="position:absolute;top:50%;right:16px;transform:translateY(-50%) rotate(-90deg);text-align:center;width:60px;margin-right:-16px;">
+        <div style="color:rgba(80,160,255,0.7);font-size:8px;font-family:monospace;letter-spacing:1px">REBEL</div>
+        <div style="color:rgba(80,160,255,1);font-size:18px;font-family:monospace;font-weight:bold;line-height:1.2">10</div>
+        <div style="color:rgba(80,160,255,0.6);font-size:8px;font-family:monospace">SCORE: 0</div>
+      </div>
+
+      <!-- top-right = player 2's "bottom" (joystick) -->
+      <div style="position:absolute;top:12px;right:12px;transform:rotate(180deg)">
+        <div style="width:54px;height:54px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+        </div>
+        <div style="text-align:center;margin-top:2px;color:rgba(255,255,255,0.4);font-size:8px;font-family:monospace;transform:rotate(90deg)">MOVE</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:16px">
+  <ul style="color:#ccc;line-height:1.9;font-size:14px;">
+    <li><strong>Player 1 (left short side):</strong> All text rotated 90° — readable when holding left edge</li>
+    <li><strong>Player 2 (right short side):</strong> All text rotated 90° the other way — readable when holding right edge</li>
+    <li><strong>Score shows:</strong> HP (lives) + Score (points) between the two controllers</li>
+  </ul>
+</div>

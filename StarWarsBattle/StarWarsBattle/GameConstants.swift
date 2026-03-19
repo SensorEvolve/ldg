@@ -1,4 +1,5 @@
 import CoreGraphics
+import Foundation
 
 enum GameConstants {
     static let shipSpeed: CGFloat    = 300   // pt/sec — matches Rust SHIP_SPEED=5 @ 60fps
@@ -10,4 +11,5 @@ enum GameConstants {
     static let fireButtonSize: CGFloat   = 80
     static let controlMargin: CGFloat    = 30
     static let dividerWidth: CGFloat     = 2
+    static let fireRepeatInterval: TimeInterval = 0.18
 }

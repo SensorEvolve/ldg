@@ -12,6 +12,7 @@ class GameViewController: UIViewController {
 
         guard let skView = view as? SKView else { return }
         skView.ignoresSiblingOrder = true
+        skView.isMultipleTouchEnabled = true
         skView.showsFPS = false
         skView.showsNodeCount = false
 

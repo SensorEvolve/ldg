@@ -1,0 +1,86 @@
+<h2>Touch Control Layout</h2>
+<p class="subtitle">Each player controls their ship on one half of the screen. Which control scheme feels right?</p>
+
+<div class="cards">
+
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;padding:16px;border-radius:8px;">
+      <!-- Mockup: Virtual Joystick + Fire Button -->
+      <div style="position:relative;width:100%;height:140px;background:linear-gradient(180deg,#0a0a2e,#000);border-radius:6px;overflow:hidden;">
+        <!-- Stars -->
+        <div style="position:absolute;width:2px;height:2px;background:white;top:10%;left:20%;border-radius:50%;opacity:0.8"></div>
+        <div style="position:absolute;width:1px;height:1px;background:white;top:40%;left:50%;border-radius:50%;opacity:0.6"></div>
+        <div style="position:absolute;width:2px;height:2px;background:white;top:70%;left:75%;border-radius:50%;opacity:0.9"></div>
+        <!-- Ship placeholder -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:16px;background:#e0c44a;border-radius:4px;clip-path:polygon(0 50%,30% 0,100% 50%,30% 100%)"></div>
+        <!-- Divider line -->
+        <div style="position:absolute;top:0;right:0;width:2px;height:100%;background:rgba(255,255,255,0.3)"></div>
+        <!-- Virtual joystick (bottom-left) -->
+        <div style="position:absolute;bottom:10px;left:14px;width:44px;height:44px;border-radius:50%;border:2px solid rgba(255,255,255,0.4);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,0.35)"></div>
+        </div>
+        <!-- Fire button (bottom-right) -->
+        <div style="position:absolute;bottom:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(220,50,50,0.7);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:bold;">⚡</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Virtual Joystick + Fire Button</h3>
+      <p>Thumb joystick in the corner for movement, big fire button on the opposite side. Classic arcade feel. Each player gets their own joystick + button in their half.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;padding:16px;border-radius:8px;">
+      <!-- Mockup: Swipe/Drag to Move + Tap to Fire -->
+      <div style="position:relative;width:100%;height:140px;background:linear-gradient(180deg,#0a0a2e,#000);border-radius:6px;overflow:hidden;">
+        <div style="position:absolute;width:2px;height:2px;background:white;top:15%;left:30%;border-radius:50%;opacity:0.8"></div>
+        <div style="position:absolute;width:1px;height:1px;background:white;top:60%;left:60%;border-radius:50%;opacity:0.6"></div>
+        <!-- Ship -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:16px;background:#e0c44a;border-radius:4px;clip-path:polygon(0 50%,30% 0,100% 50%,30% 100%)"></div>
+        <!-- Divider -->
+        <div style="position:absolute;top:0;right:0;width:2px;height:100%;background:rgba(255,255,255,0.3)"></div>
+        <!-- Drag arrow hint -->
+        <div style="position:absolute;top:50%;left:30%;transform:translateY(-50%);font-size:22px;color:rgba(255,255,255,0.5)">⬆</div>
+        <!-- Tap ripple hint -->
+        <div style="position:absolute;top:50%;right:20%;transform:translateY(-50%);width:32px;height:32px;border-radius:50%;border:2px dashed rgba(100,180,255,0.5)"></div>
+        <div style="position:absolute;top:50%;right:20%;transform:translate(50%,-50%);font-size:10px;color:rgba(100,180,255,0.7);white-space:nowrap;right:30%">TAP</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Drag to Move + Tap to Fire</h3>
+      <p>Drag anywhere in your half to move the ship. Tap with a second finger to fire. No fixed buttons — feels like touching the ship directly. Very natural on touch screens.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#0a0a1a;padding:16px;border-radius:8px;">
+      <!-- Mockup: D-Pad + Fire Button -->
+      <div style="position:relative;width:100%;height:140px;background:linear-gradient(180deg,#0a0a2e,#000);border-radius:6px;overflow:hidden;">
+        <div style="position:absolute;width:2px;height:2px;background:white;top:20%;left:25%;border-radius:50%;opacity:0.7"></div>
+        <div style="position:absolute;width:1px;height:1px;background:white;top:50%;left:55%;border-radius:50%;opacity:0.5"></div>
+        <!-- Ship -->
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:28px;height:16px;background:#e0c44a;border-radius:4px;clip-path:polygon(0 50%,30% 0,100% 50%,30% 100%)"></div>
+        <!-- Divider -->
+        <div style="position:absolute;top:0;right:0;width:2px;height:100%;background:rgba(255,255,255,0.3)"></div>
+        <!-- D-pad -->
+        <div style="position:absolute;bottom:8px;left:8px;width:52px;height:52px;">
+          <!-- up -->
+          <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:16px;height:16px;background:rgba(255,255,255,0.2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:white">▲</div>
+          <!-- down -->
+          <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:16px;height:16px;background:rgba(255,255,255,0.2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:white">▼</div>
+          <!-- left -->
+          <div style="position:absolute;top:50%;left:0;transform:translateY(-50%);width:16px;height:16px;background:rgba(255,255,255,0.2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:white">◀</div>
+          <!-- right -->
+          <div style="position:absolute;top:50%;right:0;transform:translateY(-50%);width:16px;height:16px;background:rgba(255,255,255,0.2);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:9px;color:white">▶</div>
+        </div>
+        <!-- Fire button -->
+        <div style="position:absolute;bottom:14px;right:14px;width:36px;height:36px;border-radius:50%;background:rgba(220,50,50,0.7);display:flex;align-items:center;justify-content:center;font-size:14px;color:white;font-weight:bold;">⚡</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — D-Pad + Fire Button</h3>
+      <p>On-screen directional pad for movement, separate fire button. Most precise for players used to console/handheld games. Feels close to the original keyboard controls.</p>
+    </div>
+  </div>
+
+</div>

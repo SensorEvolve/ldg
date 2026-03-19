@@ -1,0 +1,81 @@
+<h2>Player Orientation</h2>
+<p class="subtitle">Each player holds one short side — their half of the screen is rotated toward them</p>
+
+<div class="mockup">
+  <div class="mockup-header">iPad — as seen from above (bird's eye view)</div>
+  <div class="mockup-body" style="padding:0">
+    <div style="display:flex;width:100%;height:280px;background:linear-gradient(180deg,#050518,#000428);position:relative;overflow:hidden;border-radius:0 0 6px 6px;">
+
+      <!-- Stars -->
+      <div style="position:absolute;width:2px;height:2px;background:white;top:15%;left:18%;border-radius:50%;opacity:0.6"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:50%;left:35%;border-radius:50%;opacity:0.5"></div>
+      <div style="position:absolute;width:2px;height:2px;background:white;top:70%;left:60%;border-radius:50%;opacity:0.7"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:30%;left:78%;border-radius:50%;opacity:0.5"></div>
+
+      <!-- CENTER DIVIDER -->
+      <div style="position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(255,255,255,0.25);transform:translateX(-50%)"></div>
+
+      <!-- ===== LEFT HALF — Player 1 (Imperial) — normal orientation ===== -->
+      <!-- Player 1 sits at the LEFT short side, reads normally -->
+
+      <!-- HP label — top of their half (near them = left edge) -->
+      <div style="position:absolute;top:12px;left:12px;color:rgba(255,100,100,0.9);font-size:11px;font-family:monospace;letter-spacing:1px">IMPERIAL  HP: 10</div>
+
+      <!-- Imperial ship faces RIGHT → (away from player 1) -->
+      <div style="position:absolute;top:50%;left:38%;transform:translate(-50%,-50%)">
+        <div style="width:36px;height:20px;background:#c8a820;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+      </div>
+
+      <!-- Joystick — bottom-left (outer corner, near player 1) -->
+      <div style="position:absolute;bottom:16px;left:16px;">
+        <div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+        </div>
+      </div>
+      <!-- Fire — bottom-right of left half (inner corner) -->
+      <div style="position:absolute;bottom:20px;left:calc(50% - 70px);">
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(220,50,50,0.65);border:2px solid rgba(255,100,100,0.5);display:flex;align-items:center;justify-content:center;font-size:16px;">⚡</div>
+      </div>
+
+      <!-- Player 1 arrow indicator -->
+      <div style="position:absolute;top:50%;left:6px;transform:translateY(-50%);color:rgba(255,100,100,0.6);font-size:20px">👤</div>
+      <div style="position:absolute;top:50%;left:24px;transform:translateY(-50%);color:rgba(255,100,100,0.4);font-size:12px">→</div>
+
+      <!-- ===== RIGHT HALF — Player 2 (Rebel) — ROTATED 180° ===== -->
+      <!-- Player 2 sits at the RIGHT short side, reads upside-down relative to Player 1 -->
+
+      <!-- HP label — rotated, near right edge (near player 2) -->
+      <div style="position:absolute;bottom:12px;right:12px;color:rgba(80,160,255,0.9);font-size:11px;font-family:monospace;letter-spacing:1px;transform:rotate(180deg)">REBEL  HP: 10</div>
+
+      <!-- Rebel ship faces LEFT ← (away from player 2) — but rotated so player 2 sees it facing away -->
+      <div style="position:absolute;top:50%;left:62%;transform:translate(-50%,-50%) rotate(180deg)">
+        <div style="width:36px;height:20px;background:#3a7bd5;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+      </div>
+
+      <!-- Joystick — rotated, outer corner = bottom-right = near player 2 -->
+      <div style="position:absolute;top:16px;right:16px;transform:rotate(180deg)">
+        <div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+        </div>
+      </div>
+      <!-- Fire — inner corner for player 2 -->
+      <div style="position:absolute;top:20px;right:calc(50% - 26px);transform:rotate(180deg)">
+        <div style="width:44px;height:44px;border-radius:50%;background:rgba(50,100,220,0.65);border:2px solid rgba(80,160,255,0.5);display:flex;align-items:center;justify-content:center;font-size:16px;">⚡</div>
+      </div>
+
+      <!-- Player 2 arrow indicator -->
+      <div style="position:absolute;top:50%;right:6px;transform:translateY(-50%);color:rgba(80,160,255,0.6);font-size:20px">👤</div>
+      <div style="position:absolute;top:50%;right:24px;transform:translateY(-50%);color:rgba(80,160,255,0.4);font-size:12px">←</div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:20px">
+  <h3>Key point</h3>
+  <ul style="color:#ccc;line-height:1.9;font-size:14px;">
+    <li>Player 2's entire half (HUD, ship, controls) is <strong>rotated 180°</strong> — it reads correctly when holding the right short side</li>
+    <li>Both ships face <strong>toward the center</strong> (away from their player) — they're shooting at each other across the divider</li>
+    <li>In SpriteKit: Player 2's half is rendered in a separate <code>SKNode</code> container with <code>.zRotation = .pi</code></li>
+  </ul>
+</div>

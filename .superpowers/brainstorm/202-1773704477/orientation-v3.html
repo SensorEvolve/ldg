@@ -1,0 +1,93 @@
+<h2>Control Layout — Final</h2>
+<p class="subtitle">Controls on the short sides · HP score near the center divider</p>
+
+<div class="mockup">
+  <div class="mockup-header">iPad — bird's eye view</div>
+  <div class="mockup-body" style="padding:0">
+    <div style="display:flex;width:100%;height:300px;background:linear-gradient(180deg,#050518,#000428);position:relative;overflow:hidden;border-radius:0 0 6px 6px;">
+
+      <!-- Stars -->
+      <div style="position:absolute;width:2px;height:2px;background:white;top:15%;left:22%;border-radius:50%;opacity:0.6"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:55%;left:38%;border-radius:50%;opacity:0.5"></div>
+      <div style="position:absolute;width:2px;height:2px;background:white;top:30%;left:62%;border-radius:50%;opacity:0.7"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:70%;left:78%;border-radius:50%;opacity:0.5"></div>
+
+      <!-- CENTER DIVIDER -->
+      <div style="position:absolute;top:0;left:50%;width:2px;height:100%;background:rgba(255,255,255,0.25);transform:translateX(-50%)"></div>
+
+      <!-- ===== LEFT HALF — Player 1 (Imperial) ===== -->
+
+      <!-- HP near center-left (middle of screen, left of divider) -->
+      <div style="position:absolute;top:50%;left:calc(50% - 90px);transform:translateY(-50%);text-align:right;">
+        <div style="color:rgba(255,100,100,0.9);font-size:13px;font-family:monospace;font-weight:bold">IMPERIAL</div>
+        <div style="color:rgba(255,100,100,0.8);font-size:12px;font-family:monospace;margin-top:4px">HP: ██████████ 10</div>
+      </div>
+
+      <!-- Imperial ship faces RIGHT → -->
+      <div style="position:absolute;top:50%;left:28%;transform:translate(-50%,-50%)">
+        <div style="width:36px;height:20px;background:#c8a820;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+      </div>
+
+      <!-- Bullet -->
+      <div style="position:absolute;top:calc(50% - 3px);left:38%;width:14px;height:5px;background:#ff4444;border-radius:2px"></div>
+
+      <!-- Top-left: FIRE -->
+      <div style="position:absolute;top:14px;left:14px;">
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(220,50,50,0.65);border:2px solid rgba(255,100,100,0.6);display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
+        <div style="text-align:center;margin-top:3px;color:rgba(255,100,100,0.5);font-size:8px;font-family:monospace">FIRE</div>
+      </div>
+
+      <!-- Bottom-left: JOYSTICK -->
+      <div style="position:absolute;bottom:14px;left:14px;">
+        <div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+        </div>
+        <div style="text-align:center;margin-top:3px;color:rgba(255,255,255,0.4);font-size:8px;font-family:monospace">MOVE</div>
+      </div>
+
+      <div style="position:absolute;top:50%;left:-2px;transform:translateY(-50%);font-size:18px">👤</div>
+
+      <!-- ===== RIGHT HALF — Player 2 (Rebel) — ROTATED 180° ===== -->
+
+      <!-- HP near center-right (middle of screen, right of divider) — rotated so player 2 reads it -->
+      <div style="position:absolute;top:50%;left:calc(50% + 16px);transform:translateY(-50%) rotate(180deg);text-align:right;">
+        <div style="color:rgba(80,160,255,0.9);font-size:13px;font-family:monospace;font-weight:bold">REBEL</div>
+        <div style="color:rgba(80,160,255,0.8);font-size:12px;font-family:monospace;margin-top:4px">HP: ██████████ 10</div>
+      </div>
+
+      <!-- Rebel ship (rotated 180° so player 2 sees it facing away from them) -->
+      <div style="position:absolute;top:50%;left:72%;transform:translate(-50%,-50%) rotate(180deg)">
+        <div style="width:36px;height:20px;background:#3a7bd5;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+      </div>
+
+      <!-- Bullet -->
+      <div style="position:absolute;top:calc(50% - 3px);right:38%;width:14px;height:5px;background:#4488ff;border-radius:2px;transform:rotate(180deg)"></div>
+
+      <!-- Bottom-right (= player 2's top): FIRE -->
+      <div style="position:absolute;bottom:14px;right:14px;transform:rotate(180deg)">
+        <div style="width:48px;height:48px;border-radius:50%;background:rgba(50,100,220,0.65);border:2px solid rgba(80,160,255,0.6);display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
+        <div style="text-align:center;margin-top:3px;color:rgba(80,160,255,0.5);font-size:8px;font-family:monospace">FIRE</div>
+      </div>
+
+      <!-- Top-right (= player 2's bottom): JOYSTICK -->
+      <div style="position:absolute;top:14px;right:14px;transform:rotate(180deg)">
+        <div style="width:56px;height:56px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;">
+          <div style="width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+        </div>
+        <div style="text-align:center;margin-top:3px;color:rgba(255,255,255,0.4);font-size:8px;font-family:monospace">MOVE</div>
+      </div>
+
+      <div style="position:absolute;top:50%;right:-2px;transform:translateY(-50%);font-size:18px">👤</div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:20px">
+  <h3>Layout summary</h3>
+  <ul style="color:#ccc;line-height:1.9;font-size:14px;">
+    <li><strong>Controls:</strong> Both players' joystick + fire button live on their short side corners only</li>
+    <li><strong>HP score:</strong> Displayed near the center divider — left side for Imperial (readable by Player 1), right side for Rebel (rotated 180°, readable by Player 2)</li>
+    <li><strong>Ships + action:</strong> Play out in the open middle area of each half</li>
+  </ul>
+</div>

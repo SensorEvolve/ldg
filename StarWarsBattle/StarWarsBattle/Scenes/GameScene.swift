@@ -27,6 +27,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var touchOwner: [ObjectIdentifier: Player] = [:]
     private var joystickTouchStart: [ObjectIdentifier: CGPoint] = [:]
     private var joystickTouches: Set<ObjectIdentifier> = []
+    private var imperialFireTouches: Set<ObjectIdentifier> = []
+    private var rebelFireTouches: Set<ObjectIdentifier> = []
+
+    // MARK: - Fire hold state
+    private var imperialFireHeld = false
+    private var rebelFireHeld = false
+    private var imperialFireCooldown: TimeInterval = 0
+    private var rebelFireCooldown: TimeInterval = 0
 
     // MARK: - Audio
     private var laserAction: SKAction!
@@ -215,6 +223,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         updateShipMovement(dt: dt)
         updateBullets()
         updateHUDs()
+        updateFireHold(dt: TimeInterval(dt))
     }
 
     private func updateShipMovement(dt: CGFloat) {
@@ -275,6 +284,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
 
+    private func updateFireHold(dt: TimeInterval) {
+        if imperialFireHeld {
+            imperialFireCooldown -= dt
+            if imperialFireCooldown <= 0 {
+                spawnBullet(player: .imperial)
+                imperialFireCooldown = GameConstants.fireRepeatInterval
+            }
+        }
+        if rebelFireHeld {
+            rebelFireCooldown -= dt
+            if rebelFireCooldown <= 0 {
+                spawnBullet(player: .rebel)
+                rebelFireCooldown = GameConstants.fireRepeatInterval
+            }
+        }
+    }
+
     // MARK: - Physics contact
 
     func didBegin(_ contact: SKPhysicsContact) {
@@ -331,7 +357,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     joystickTouchStart[id] = scenePoint
                     joystickTouches.insert(id)
                 } else if imperialFireButton.contains(scenePoint) {
-                    spawnBullet(player: .imperial)
+                    imperialFireTouches.insert(id)
+                    imperialFireHeld = true
+                    imperialFireCooldown = 0
                 }
             } else {
                 // Player 2 touch (top half)
@@ -344,7 +372,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     joystickTouchStart[id] = localPoint
                     joystickTouches.insert(id)
                 } else if rebelFireButton.contains(localPoint) {
-                    spawnBullet(player: .rebel)
+                    rebelFireTouches.insert(id)
+                    rebelFireHeld = true
+                    rebelFireCooldown = 0
                 }
             }
         }
@@ -397,6 +427,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 case .rebel:    rebelJoystick.reset()
                 }
             }
+            if imperialFireTouches.contains(id) {
+                imperialFireTouches.remove(id)
+                if imperialFireTouches.isEmpty { imperialFireHeld = false }
+            }
+            if rebelFireTouches.contains(id) {
+                rebelFireTouches.remove(id)
+                if rebelFireTouches.isEmpty { rebelFireHeld = false }
+            }
             touchOwner.removeValue(forKey: id)
             joystickTouchStart.removeValue(forKey: id)
             joystickTouches.remove(id)
@@ -411,43 +449,139 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     private func showGameOverOverlay() {
         playVictoryMusic()
+
+        let cx = size.width / 2
+        let cy = size.height / 2
+
+        // --- Dark overlay ---
         let overlay = SKShapeNode(rect: CGRect(origin: .zero, size: size))
-        overlay.fillColor = UIColor.black.withAlphaComponent(0.75)
+        overlay.fillColor = UIColor(red: 0.03, green: 0.03, blue: 0.07, alpha: 0.88)
         overlay.strokeColor = .clear
         overlay.zPosition = 10
         addChild(overlay)
 
+        // --- Blue radial glow behind title ---
+        let glowSize = CGSize(width: size.width * 0.9, height: size.height * 0.4)
+        let glow = SKShapeNode(ellipseOf: glowSize)
+        glow.fillColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: 0.12)
+        glow.strokeColor = .clear
+        glow.position = CGPoint(x: cx, y: cy + 60)
+        glow.zPosition = 11
+        addChild(glow)
+
+        // --- Scattered stars ---
+        let starPositions: [(CGFloat, CGFloat)] = [
+            (0.08, 0.82), (0.18, 0.55), (0.28, 0.90), (0.42, 0.68),
+            (0.55, 0.78), (0.67, 0.92), (0.75, 0.60), (0.85, 0.85),
+            (0.92, 0.72), (0.12, 0.38), (0.35, 0.25), (0.60, 0.30),
+            (0.80, 0.42), (0.48, 0.15), (0.22, 0.12)
+        ]
+        for (fx, fy) in starPositions {
+            let star = SKShapeNode(circleOfRadius: CGFloat.random(in: 0.8...1.5))
+            star.fillColor = UIColor.white.withAlphaComponent(CGFloat.random(in: 0.2...0.5))
+            star.strokeColor = .clear
+            star.position = CGPoint(x: size.width * fx, y: size.height * fy)
+            star.zPosition = 11
+            addChild(star)
+        }
+
+        // --- "— VICTORY —" eyebrow label ---
+        let eyebrow = SKLabelNode(fontNamed: "Helvetica")
+        eyebrow.text = "— VICTORY —"
+        eyebrow.fontSize = 14
+        eyebrow.fontColor = UIColor.white.withAlphaComponent(0.3)
+        eyebrow.horizontalAlignmentMode = .center
+        eyebrow.position = CGPoint(x: cx, y: cy + 130)
+        eyebrow.zPosition = 12
+        addChild(eyebrow)
+
+        // --- "GAME OVER" title ---
         let goLabel = SKLabelNode(fontNamed: "Helvetica-Bold")
         goLabel.text = "GAME OVER"
-        goLabel.fontSize = 72
+        goLabel.fontSize = 64
         goLabel.fontColor = .white
-        goLabel.position = CGPoint(x: size.width / 2, y: size.height / 2 + 60)
-        goLabel.zPosition = 11
+        goLabel.horizontalAlignmentMode = .center
+        goLabel.position = CGPoint(x: cx, y: cy + 40)
+        goLabel.zPosition = 12
+        // Blue glow via a blurred duplicate underneath
+        let goGlow = goLabel.copy() as! SKLabelNode
+        goGlow.fontColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: 0.55)
+        goGlow.zPosition = 11
+        goGlow.xScale = 1.04; goGlow.yScale = 1.04
+        addChild(goGlow)
         addChild(goLabel)
 
+        // --- Winner label ---
         let winLabel = SKLabelNode(fontNamed: "Helvetica-Bold")
         winLabel.text = winner ?? ""
-        winLabel.fontSize = 48
-        winLabel.fontColor = .yellow
-        winLabel.position = CGPoint(x: size.width / 2, y: size.height / 2 - 10)
-        winLabel.zPosition = 11
+        winLabel.fontSize = 26
+        winLabel.fontColor = UIColor(red: 1.0, green: 0.84, blue: 0.0, alpha: 1)
+        winLabel.horizontalAlignmentMode = .center
+        winLabel.position = CGPoint(x: cx, y: cy - 12)
+        winLabel.zPosition = 12
+        // Gold glow duplicate
+        let winGlow = winLabel.copy() as! SKLabelNode
+        winGlow.fontColor = UIColor(red: 1.0, green: 0.84, blue: 0.0, alpha: 0.35)
+        winGlow.zPosition = 11
+        winGlow.xScale = 1.05; winGlow.yScale = 1.05
+        addChild(winGlow)
         addChild(winLabel)
 
-        let playAgainLabel = SKLabelNode(fontNamed: "Helvetica-Bold")
-        playAgainLabel.text = "PLAY AGAIN"
-        playAgainLabel.fontSize = 32
-        playAgainLabel.fontColor = .white
-        playAgainLabel.position = CGPoint(x: size.width / 2, y: size.height / 2 - 90)
-        playAgainLabel.zPosition = 11
-        playAgainLabel.name = "playAgain"
+        // --- Thin divider ---
+        let divPath = CGMutablePath()
+        divPath.move(to: CGPoint(x: cx - 50, y: cy - 44))
+        divPath.addLine(to: CGPoint(x: cx + 50, y: cy - 44))
+        let divider = SKShapeNode(path: divPath)
+        divider.strokeColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: 0.5)
+        divider.lineWidth = 1
+        divider.zPosition = 12
+        addChild(divider)
 
-        let btnBG = SKShapeNode(rect: CGRect(x: -120, y: -22, width: 240, height: 50),
-                                cornerRadius: 10)
-        btnBG.fillColor = UIColor(red: 0.2, green: 0.4, blue: 0.8, alpha: 0.8)
-        btnBG.strokeColor = .clear
-        btnBG.zPosition = 10
+        // --- Play Again button ---
+        let btnW: CGFloat = 220
+        let btnH: CGFloat = 52
+        let btnY = cy - 110
+
+        let btnBG = SKShapeNode(rect: CGRect(x: -btnW/2, y: -btnH/2, width: btnW, height: btnH),
+                                cornerRadius: 7)
+        btnBG.fillColor = UIColor(red: 0.10, green: 0.23, blue: 0.43, alpha: 1)
+        btnBG.strokeColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: 0.55)
+        btnBG.lineWidth = 1
+        btnBG.position = CGPoint(x: cx, y: btnY)
+        btnBG.zPosition = 12
         btnBG.name = "playAgain"
-        playAgainLabel.addChild(btnBG)
-        addChild(playAgainLabel)
+        addChild(btnBG)
+
+        let btnLabel = SKLabelNode(fontNamed: "Helvetica-Bold")
+        btnLabel.text = "▶  PLAY AGAIN"
+        btnLabel.fontSize = 16
+        btnLabel.fontColor = .white
+        btnLabel.horizontalAlignmentMode = .center
+        btnLabel.verticalAlignmentMode = .center
+        btnLabel.position = CGPoint(x: cx, y: btnY)
+        btnLabel.zPosition = 13
+        btnLabel.name = "playAgain"
+        addChild(btnLabel)
+
+        // Pulsing blue outer glow on button
+        let glowBtn = SKShapeNode(rect: CGRect(x: -btnW/2 - 6, y: -btnH/2 - 6,
+                                               width: btnW + 12, height: btnH + 12),
+                                  cornerRadius: 10)
+        glowBtn.fillColor = .clear
+        glowBtn.strokeColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: 0)
+        glowBtn.lineWidth = 6
+        glowBtn.position = CGPoint(x: cx, y: btnY)
+        glowBtn.zPosition = 11
+        addChild(glowBtn)
+
+        let brighten = SKAction.customAction(withDuration: 1.0) { node, t in
+            let alpha = 0.12 + 0.28 * sin(Float(t) * .pi)
+            (node as? SKShapeNode)?.strokeColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: CGFloat(alpha))
+        }
+        let dim = SKAction.customAction(withDuration: 1.0) { node, t in
+            let alpha = 0.40 - 0.28 * sin(Float(t) * .pi)
+            (node as? SKShapeNode)?.strokeColor = UIColor(red: 0.39, green: 0.58, blue: 0.93, alpha: CGFloat(alpha))
+        }
+        glowBtn.run(SKAction.repeatForever(SKAction.sequence([brighten, dim])))
     }
 }

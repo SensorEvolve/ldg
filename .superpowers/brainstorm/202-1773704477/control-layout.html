@@ -1,0 +1,92 @@
+<h2>Touch Control Layout</h2>
+<p class="subtitle">Landscape iPad — each player holds one short side. Here's where the controls sit.</p>
+
+<div class="mockup">
+  <div class="mockup-header">iPad Landscape — Split Screen (top-down view)</div>
+  <div class="mockup-body" style="padding:0">
+    <div style="display:flex;width:100%;height:260px;background:linear-gradient(180deg,#050518,#000428);position:relative;overflow:hidden;border-radius:0 0 6px 6px;">
+
+      <!-- Stars -->
+      <div style="position:absolute;width:2px;height:2px;background:white;top:12%;left:15%;border-radius:50%;opacity:0.7"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:35%;left:28%;border-radius:50%;opacity:0.5"></div>
+      <div style="position:absolute;width:2px;height:2px;background:white;top:60%;left:42%;border-radius:50%;opacity:0.8"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:20%;left:58%;border-radius:50%;opacity:0.6"></div>
+      <div style="position:absolute;width:2px;height:2px;background:white;top:75%;left:72%;border-radius:50%;opacity:0.7"></div>
+      <div style="position:absolute;width:1px;height:1px;background:white;top:45%;left:85%;border-radius:50%;opacity:0.5"></div>
+
+      <!-- Left half: Imperial -->
+      <div style="flex:1;position:relative;border-right:2px solid rgba(255,255,255,0.25)">
+        <!-- Label -->
+        <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);color:rgba(255,100,100,0.8);font-size:11px;font-family:monospace;letter-spacing:2px">IMPERIAL</div>
+
+        <!-- HP bar -->
+        <div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);color:rgba(255,100,100,0.7);font-size:10px;font-family:monospace">HP: ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+
+        <!-- Imperial ship (faces right →) -->
+        <div style="position:absolute;top:50%;left:55%;transform:translate(-50%,-50%)">
+          <div style="width:36px;height:20px;background:#c8a820;clip-path:polygon(0 50%,25% 0,100% 50%,25% 100%);border-radius:2px"></div>
+        </div>
+
+        <!-- Bullet traveling right -->
+        <div style="position:absolute;top:calc(50% - 3px);left:68%;width:14px;height:5px;background:#ff4444;border-radius:2px"></div>
+
+        <!-- Virtual Joystick — bottom LEFT corner (player holds left short side) -->
+        <div style="position:absolute;bottom:18px;left:18px;">
+          <div style="width:60px;height:60px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;">
+            <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+          </div>
+          <div style="text-align:center;margin-top:4px;color:rgba(255,255,255,0.4);font-size:9px;font-family:monospace">MOVE</div>
+        </div>
+
+        <!-- Fire Button — bottom RIGHT of left half -->
+        <div style="position:absolute;bottom:22px;right:18px;">
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(220,50,50,0.65);border:2px solid rgba(255,100,100,0.5);display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
+          <div style="text-align:center;margin-top:4px;color:rgba(255,100,100,0.5);font-size:9px;font-family:monospace">FIRE</div>
+        </div>
+      </div>
+
+      <!-- Right half: Rebel -->
+      <div style="flex:1;position:relative;">
+        <!-- Label -->
+        <div style="position:absolute;top:10px;left:50%;transform:translateX(-50%);color:rgba(80,160,255,0.8);font-size:11px;font-family:monospace;letter-spacing:2px">REBEL</div>
+
+        <!-- HP bar -->
+        <div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);color:rgba(80,160,255,0.7);font-size:10px;font-family:monospace">HP: ❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️</div>
+
+        <!-- Rebel ship (faces left ←) -->
+        <div style="position:absolute;top:50%;left:45%;transform:translate(-50%,-50%)">
+          <div style="width:36px;height:20px;background:#3a7bd5;clip-path:polygon(100% 50%,75% 0,0 50%,75% 100%);border-radius:2px"></div>
+        </div>
+
+        <!-- Bullet traveling left -->
+        <div style="position:absolute;top:calc(50% - 3px);right:68%;width:14px;height:5px;background:#4488ff;border-radius:2px"></div>
+
+        <!-- Fire Button — bottom LEFT of right half (close to center) -->
+        <div style="position:absolute;bottom:22px;left:18px;">
+          <div style="width:48px;height:48px;border-radius:50%;background:rgba(50,100,220,0.65);border:2px solid rgba(80,160,255,0.5);display:flex;align-items:center;justify-content:center;font-size:18px;">⚡</div>
+          <div style="text-align:center;margin-top:4px;color:rgba(80,160,255,0.5);font-size:9px;font-family:monospace">FIRE</div>
+        </div>
+
+        <!-- Virtual Joystick — bottom RIGHT corner -->
+        <div style="position:absolute;bottom:18px;right:18px;">
+          <div style="width:60px;height:60px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;">
+            <div style="width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.3)"></div>
+          </div>
+          <div style="text-align:center;margin-top:4px;color:rgba(255,255,255,0.4);font-size:9px;font-family:monospace">MOVE</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top:20px">
+  <h3>How it works</h3>
+  <ul style="color:#ccc;line-height:1.8;font-size:14px;">
+    <li>Each player uses <strong>one thumb</strong> on the joystick (outer bottom corner) and <strong>one thumb</strong> on the fire button (inner bottom corner)</li>
+    <li>Joystick tracks touch offset from its center — ship moves in that direction continuously</li>
+    <li>Fire button tap spawns a bullet if fewer than 3 are active</li>
+    <li>Multi-touch handled independently per side — touches on the left half never interfere with the right</li>
+    <li>Controls are <strong>mirrored</strong>: Imperial joystick is bottom-left, Rebel joystick is bottom-right</li>
+  </ul>
+</div>
